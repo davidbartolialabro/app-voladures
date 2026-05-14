@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+}
+
+.container {
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+section {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.resultats p {
+  font-size: 22px;
+  margin: 15px 0;
+}
+.parametreCalculat {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+.resultatFila {
+  margin-top: 20px;
+}
+
+.resultatFila p {
+  font-size: 22px;
+  margin: 12px 0;
+}

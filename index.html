@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Càlcul Voladures</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#111111">
+<body>
+
+  <div class="container">
+
+    <h1>CÀLCUL VOLADURES</h1>
+
+    <section>
+    <h2>PARÀMETRES TIPUS</h2>
+
+    <label>Longitud perforació tipus (m)</label>
+    <input type="number" id="lperfTipus" value="21" step="0.1">
+
+    <label>Inclinació tipus (°)</label>
+    <input type="number" id="inclTipus" value="18" step="0.1">
+
+    <div class="parametreCalculat">
+    Alçada barrinada: <span id="alcada">0</span> m
+    </div>
+   </section>
+      <h2>1a FILA</h2>
+
+      <label>Inclinació (°)</label>
+      <input type="number" id="inclFila1" value="20" step="0.1">
+    </section>
+
+    <section class="resultats">
+      <h2>RESULTATS</h2>
+
+      <p>Longitud perforació: <span id="novaLperf">0</span> m</p>
+
+      <p>Avanç: <span id="avanc">0</span> m</p>
+    </section>
+<section>
+  <h2>2a FILA</h2>
+
+  <label>Pedra boques (m)</label>
+  <input type="number" id="pedraBoques2" value="4" step="0.1">
+
+  <label>Pedra peus (m)</label>
+  <input type="number" id="pedraPeus2" value="4" step="0.1">
+
+  <div class="resultatFila">
+    <p>Inclinació: <span id="incl2">0</span> °</p>
+    <p>Longitud perforació: <span id="lperf2">0</span> m</p>
+    <p>Avanç: <span id="avanc2">0</span> m</p>
+  </div>
+</section>
+  </div>
+
+  <script src="app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
+</body>
+</html>
