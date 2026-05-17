@@ -1,106 +1,173 @@
 const lperfTipus = document.getElementById("lperfTipus");
 const inclTipus = document.getElementById("inclTipus");
-const inclFila1 = document.getElementById("inclFila1");
 
 const alcada = document.getElementById("alcada");
-const novaLperf = document.getElementById("novaLperf");
-const avanc = document.getElementById("avanc");
+const filesContainer = document.getElementById("filesContainer");
+const addFilaBtn = document.getElementById("addFila");
 
-const pedraBoques2 = document.getElementById("pedraBoques2");
-const pedraPeus2 = document.getElementById("pedraPeus2");
+// ---------------- MATES ----------------
 
-const incl2 = document.getElementById("incl2");
-const lperf2 = document.getElementById("lperf2");
-const avanc2 = document.getElementById("avanc2");
-
-function grausARadians(graus) {
-  return graus * Math.PI / 180;
+function g2r(g) {
+  return g * Math.PI / 180;
 }
 
-function radiansAGraus(rad) {
-  return rad * 180 / Math.PI;
+function r2g(r) {
+  return r * 180 / Math.PI;
 }
 
-function calcular() {
+// ---------------- DADES ----------------
 
-  // -----------------------------
-  // PARÀMETRES TIPUS
-  // -----------------------------
+let files = [
+  { incl: 26, pb: 0, pp: 0, L: 0, A: 0 }
+];
 
+// ---------------- H ----------------
+
+function calcH() {
   const Ltipus = Number(lperfTipus.value);
   const Itipus = Number(inclTipus.value);
 
-  const radTipus = grausARadians(Itipus);
-
-  // Alçada barrinada
-
-  const H = Ltipus * Math.cos(radTipus);
+  const H = Ltipus * Math.cos(g2r(Itipus));
 
   alcada.textContent = H.toFixed(3);
-
-  // -----------------------------
-  // PRIMERA FILA
-  // -----------------------------
-
-  const Ifila1 = Number(inclFila1.value);
-
-  const radFila1 = grausARadians(Ifila1);
-
-  // Longitud perforació
-
-  const L1 = H / Math.cos(radFila1);
-
-  // Avanç
-
-  const A1 = L1 * Math.sin(radFila1);
-
-  novaLperf.textContent = L1.toFixed(3);
-
-  avanc.textContent = A1.toFixed(3);
-
-  // -----------------------------
-  // SEGONA FILA
-  // -----------------------------
-
-  const pb2 = Number(pedraBoques2.value);
-
-  const pp2 = Number(pedraPeus2.value);
-
-  // Inclinació
-
-  const rad2 = Math.atan((A1 + pb2 - pp2) / H);
-
-  const graus2 = radiansAGraus(rad2);
-
-  // Longitud
-
-  const L2 = H / Math.cos(rad2);
-
-  // Avanç
-
-  const A2 = L2 * Math.sin(rad2);
-
-  // Mostrar
-
-  incl2.textContent = graus2.toFixed(3);
-
-  lperf2.textContent = L2.toFixed(3);
-
-  avanc2.textContent = A2.toFixed(3);
+  return H;
 }
 
-// EVENTS
+// ---------------- RENDER ----------------
 
-lperfTipus.addEventListener("input", calcular);
+function render() {
+  filesContainer.innerHTML = "";
 
-inclTipus.addEventListener("input", calcular);
+  files.forEach((f, i) => {
+    const div = document.createElement("div");
 
-inclFila1.addEventListener("input", calcular);
+    div.style.background = "#1e1e1e";
+    div.style.padding = "15px";
+    div.style.marginTop = "10px";
+    div.style.borderRadius = "10px";
 
-pedraBoques2.addEventListener("input", calcular);
+    div.innerHTML = `
+      <h3>Fila ${i + 1}</h3>
 
-pedraPeus2.addEventListener("input", calcular);
+      ${
+        i === 0
+          ? `
+            <label>Inclinació (°)</label>
+            <input type="number" class="incl" data-i="${i}" value="${f.incl}" step="0.1">
+          `
+          : `
+            <label>Pedra boques</label>
+            <input type="number" class="pb" data-i="${i}" value="${f.pb}" step="0.1">
 
-// iniciar
+            <label>Pedra peus</label>
+            <input type="number" class="pp" data-i="${i}" value="${f.pp}" step="0.1">
+          `
+      }
 
-calcular();
+      <p>Inclinació: <span class="inclOut" data-i="${i}">0</span> °</p>
+      <p>Longitud perforació: <span class="L" data-i="${i}">0</span> m</p>
+      <p>Avanç: <span class="A" data-i="${i}">0</span> m</p>
+
+      <button class="del" data-i="${i}">🗑️ Eliminar</button>
+    `;
+
+    filesContainer.appendChild(div);
+  });
+
+  attachEvents();
+}
+
+// ---------------- EVENTS ----------------
+
+function attachEvents() {
+
+  document.querySelectorAll(".incl").forEach(el => {
+    el.oninput = () => {
+      files[el.dataset.i].incl = Number(el.value);
+      calc();
+    };
+  });
+
+  document.querySelectorAll(".pb").forEach(el => {
+    el.oninput = () => {
+      files[el.dataset.i].pb = Number(el.value);
+      calc();
+    };
+  });
+
+  document.querySelectorAll(".pp").forEach(el => {
+    el.oninput = () => {
+      files[el.dataset.i].pp = Number(el.value);
+      calc();
+    };
+  });
+
+  document.querySelectorAll(".del").forEach(el => {
+    el.onclick = () => {
+      files.splice(el.dataset.i, 1);
+      render();
+      calc();
+    };
+  });
+}
+
+// ---------------- CALC ----------------
+
+function calc() {
+
+  const H = calcH();
+
+  let prevA = 0;
+
+  for (let i = 0; i < files.length; i++) {
+
+    let inclRad;
+
+    if (i === 0) {
+      inclRad = g2r(files[i].incl);
+    } else {
+      inclRad = Math.atan(
+        (prevA + files[i].pb - files[i].pp) / H
+      );
+    }
+
+    const L = H / Math.cos(inclRad);
+    const A = L * Math.sin(inclRad);
+
+    files[i].L = L;
+    files[i].A = A;
+
+    prevA = A;
+
+    const Ls = document.querySelector(`.L[data-i="${i}"]`);
+    const As = document.querySelector(`.A[data-i="${i}"]`);
+    const Is = document.querySelector(`.inclOut[data-i="${i}"]`);
+
+    if (Ls) Ls.textContent = L.toFixed(3);
+    if (As) As.textContent = A.toFixed(3);
+
+    if (Is) {
+      Is.textContent = i === 0
+        ? files[i].incl.toFixed(3)
+        : r2g(inclRad).toFixed(3);
+    }
+  }
+}
+
+// ---------------- AFEGIR ----------------
+
+addFilaBtn.addEventListener("click", () => {
+  files.push({ incl: 0, pb: 0, pp: 0, L: 0, A: 0 });
+  render();
+  calc();
+});
+
+// ---------------- EVENTS TIPUS ----------------
+
+lperfTipus.addEventListener("input", calc);
+inclTipus.addEventListener("input", calc);
+
+// ---------------- INIT ----------------
+
+render();
+calc();
