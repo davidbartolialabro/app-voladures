@@ -1,58 +1,74 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
+  background: #f4f6f8;
+  color: #222;
 }
 
 .container {
-  padding: 20px;
-  max-width: 500px;
+  padding: 15px;
+  max-width: 600px;
   margin: auto;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
+  margin-bottom: 25px;
+  font-size: 30px;
+  color: #004a99;
 }
 
 section {
-  background: #1e1e1e;
+  background: white;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 20px;
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 h2 {
   margin-top: 0;
-  font-size: 20px;
+  font-size: 22px;
+  color: #004a99;
+}
+
+h3 {
+  margin-top: 0;
+  color: #0066cc;
 }
 
 label {
   display: block;
   margin-top: 15px;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 input {
   width: 100%;
   padding: 14px;
   font-size: 20px;
-  border: none;
+  border: 1px solid #bdbdbd;
   border-radius: 8px;
   box-sizing: border-box;
+  background: white;
 }
 
-.resultats p {
-  font-size: 22px;
-  margin: 15px 0;
+input:focus {
+  outline: none;
+  border-color: #0066cc;
 }
+
 .parametreCalculat {
   margin-top: 20px;
   font-size: 22px;
   font-weight: bold;
+  background: #eef5ff;
+  padding: 10px;
+  border-radius: 8px;
 }
+
 .resultatFila {
   margin-top: 20px;
 }
@@ -60,4 +76,31 @@ input {
 .resultatFila p {
   font-size: 22px;
   margin: 12px 0;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#addFila {
+  background: #0078d7;
+  color: white;
+}
+
+.del {
+  background: #d9534f;
+  color: white;
+}
+
+#filesContainer > div {
+  background: white !important;
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }

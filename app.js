@@ -41,7 +41,7 @@ function render() {
   files.forEach((f, i) => {
     const div = document.createElement("div");
 
-    div.style.background = "#1e1e1e";
+    div.style.background = "#ffffff";
     div.style.padding = "15px";
     div.style.marginTop = "10px";
     div.style.borderRadius = "10px";
